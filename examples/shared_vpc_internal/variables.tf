@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-variable "host_project_id" {}
-
-variable "service_project_id" {}
 
 variable "kms_keyring" {
   default = "vault-keyring"

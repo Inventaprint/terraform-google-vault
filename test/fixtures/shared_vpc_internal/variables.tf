@@ -16,8 +16,6 @@
 
 variable "project_id" {}
 
-variable "service_project_id" {}
-
 variable "region" {
   default = "us-west1"
 }

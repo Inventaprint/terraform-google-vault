@@ -20,13 +20,6 @@ variable "project_id" {
   description = "ID of the project in which to create resources and add IAM bindings."
 }
 
-variable "host_project_id" {
-  type    = string
-  default = ""
-
-  description = "ID of the host project if using Shared VPC"
-}
-
 variable "region" {
   type    = string
   default = "us-east4"

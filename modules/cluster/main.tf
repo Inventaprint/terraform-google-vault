@@ -26,7 +26,6 @@ locals {
   default_kms_key   = "projects/${var.project_id}/locations/${var.region}/keyRings/${var.kms_keyring}/cryptoKeys/${var.kms_crypto_key}"
   vault_tls_kms_key = var.vault_tls_kms_key != "" ? var.vault_tls_kms_key : local.default_kms_key
   api_addr          = var.domain != "" ? "https://${var.domain}:${var.vault_port}" : "https://${local.lb_ip}:${var.vault_port}"
-  host_project      = var.host_project_id != "" ? var.host_project_id : var.project_id
   lb_ip             = local.use_external_lb ? google_compute_forwarding_rule.external[0].ip_address : var.ip_address
   # LB and Autohealing health checks have different behavior.  The load
   # balancer shouldn't route traffic to a secondary vault instance, but it
@@ -56,7 +55,7 @@ resource "google_compute_instance_template" "vault" {
 
   network_interface {
     subnetwork         = var.subnet
-    subnetwork_project = local.host_project
+    subnetwork_project = var.project_id
   }
 
   disk {

@@ -16,17 +16,17 @@
 
 data "google_compute_network" "vault" {
   name    = var.network_name
-  project = var.host_project_id
+  project = var.project_id
 }
 
 data "google_compute_subnetwork" "vault" {
   name    = var.subnet_name
-  project = var.host_project_id
+  project = var.project_id
   region  = var.region
 }
 
 resource "google_compute_address" "vault_ilb" {
-  project      = var.service_project_id
+  project      = var.project_id
   region       = var.region
   subnetwork   = data.google_compute_subnetwork.vault.self_link
   name         = "vault-internal"
@@ -34,14 +34,14 @@ resource "google_compute_address" "vault_ilb" {
 }
 
 resource "google_service_account" "vault-admin" {
-  project      = var.service_project_id
+  project      = var.project_id
   account_id   = var.service_account_name
   display_name = "Vault Admin"
 }
 
 resource "google_storage_bucket" "vault" {
-  project       = var.service_project_id
-  name          = "${var.service_project_id}-vault-storage"
+  project       = var.project_id
+  name          = "${var.project_id}-vault-storage"
   location      = "US"
   force_destroy = true
 }
@@ -49,8 +49,7 @@ resource "google_storage_bucket" "vault" {
 module "vault_cluster" {
   source = "../../modules/cluster"
 
-  project_id                  = var.service_project_id
-  host_project_id             = var.host_project_id
+  project_id                  = var.project_id
   subnet                      = data.google_compute_subnetwork.vault.self_link
   ip_address                  = google_compute_address.vault_ilb.address
   vault_storage_bucket        = google_storage_bucket.vault.name

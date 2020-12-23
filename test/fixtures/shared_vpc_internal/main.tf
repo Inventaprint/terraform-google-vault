@@ -18,8 +18,6 @@ resource "random_uuid" "keyring" {}
 
 module "svpc_test" {
   source             = "../../../examples/shared_vpc_internal"
-  host_project_id    = var.project_id
-  service_project_id = var.service_project_id
   region             = var.region
   kms_keyring        = random_uuid.keyring.result
 }

@@ -17,7 +17,6 @@ module "vault_cluster" {
 	version = "~> 5.0"
 
 	project_id                  = var.project_id
-	host_project_id             = var.host_project_id
 	subnet                      = var.subnet_self_link
 	ip_address                  = google_compute_address.vault_lb.address
 	vault_storage_bucket        = google_storage_bucket.vault.name
